@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+body {
+    margin: 0;
+    font-family: Lato;
+    background-color: #FFFFFF;
+
+    mat-toolbar {
+        font-family: Lato !important;
+    }
+}

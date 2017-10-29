@@ -9,8 +9,14 @@ export class AppComponent {
   title = 'app';
 
   constructor(private af: AngularFireDatabase) {
-      this.af.object('connected').subscribe(data => {
-        console.log(data);
+      let observableSub = this.af.object('connected');
+    
+      observableSub.subscribe({
+          next: (data) => { console.log(data)},
+          error: (error) => { console.log(error)},
+          complete: () => { console.log('Complete')}
       });
+
+     
   }
 }
