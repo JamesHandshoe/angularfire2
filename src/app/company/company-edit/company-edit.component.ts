@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CompanyService } from '../services/company.service';
+import { Company } from '../../models/company.model';
+import { FirebaseObjectObservable } from 'angularfire2/database';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-company-edit',
@@ -7,25 +10,35 @@ import { CompanyService } from '../services/company.service';
   styleUrls: ['./company-edit.component.scss']
 })
 export class CompanyEditComponent implements OnInit {
-  
-  company$;
-  constructor(private companyService: CompanyService) {
-      this.company$ = this.companyService.company$;
-  }
 
-  ngOnInit() {
-  }
+    isNewCompany: boolean;
+    companyKey: string;
+    company$: FirebaseObjectObservable<Company>;
+    constructor(private companyService: CompanyService,
+                private router: Router,
+                private route: ActivatedRoute) {
+    }
 
-  saveCompany(company) {
-      this.companyService.saveCompany(company);
-  }
+    ngOnInit() {
+        this.companyKey = this.route.snapshot.params['id']
+        this.isNewCompany = this.companyKey === 'new';
+        if (!this.isNewCompany) { this.getCompanyById() }
+    }
 
-  updateCompany(company) {
-      this.companyService.updateCompany(company);
-  }
+    getCompanyById() {
+        this.company$ = this.companyService.getCompanyById(this.companyKey);
+    }
 
-  deleteCompany(company) {
-      this.companyService.deleteCompany(company);
-  }
+    saveCompany(company) {
+        this.companyService.saveCompany(company);
+    }
+
+    updateCompany(company) {
+        this.companyService.updateCompany(company);
+    }
+
+    deleteCompany(company) {
+        this.companyService.deleteCompany(company);
+    }
 
 }

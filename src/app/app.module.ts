@@ -6,12 +6,13 @@ import { AppComponent } from './app.component';
 import { AngularFireDatabase, AngularFireDatabaseModule } from 'angularfire2/database';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule, MatInputModule, MatToolbarModule, MatCardModule, MatButtonModule } from '@angular/material';
-import { RouterModule, Routes } from '@angular/router';
 
 import 'hammerjs';
 import { CompanyEditComponent } from './company/company-edit/company-edit.component';
 import { CompanyService } from './company/services/company.service';
 import { FormsModule } from '@angular/forms';
+import { AppRoutingModule } from './app-routing.module';
+import { CompanyListComponent } from './company/company-list/company-list.component';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDTKjf_mN1v07gaihx05YTUHfBqK-85ctg',
@@ -22,11 +23,20 @@ const firebaseConfig = {
   messagingSenderId: '221210446186'
 };
 
+const materialModules = [    
+  MatMenuModule,
+  MatInputModule,
+  MatCardModule,
+  MatToolbarModule,
+  MatButtonModule,
+  MatCardModule
+]
 
 @NgModule({
   declarations: [
     AppComponent,
-    CompanyEditComponent
+    CompanyEditComponent,
+    CompanyListComponent
   ],
   imports: [
     BrowserModule,
@@ -35,12 +45,8 @@ const firebaseConfig = {
     AngularFireDatabaseModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
-    MatMenuModule,
-    MatInputModule,
-    MatCardModule,
-    MatToolbarModule,
-    MatButtonModule,
-    RouterModule.forRoot([])
+    ...materialModules,
+    AppRoutingModule
   ],
   providers: [
     AngularFireDatabase,

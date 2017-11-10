@@ -1,12 +1,18 @@
 <mat-toolbar color="primary">
-  <span>Angular Fire</span>
+  <div fxLayoutAlign="space-between center" class="nav-buttons">
+    <button mat-button [routerLink]="['']">Angular Fire Course</button>
+    <div>
+      <button mat-button [routerLink]="['/company-list']">Companies</button>
+      <button mat-button [routerLink]="['company-edit/5']">Edit Company</button>
+      <button mat-button>Sign Up</button>      
+    </div>
+  </div>
 </mat-toolbar>
 <div>
   <div fxFlexOffset.gt-xs="15%" 
        fxFlexOffset.xs="15%" 
        fxFlex.gt-xs="70%" 
        fxFlex.xs="70%">
-    <app-company-edit></app-company-edit>
     <router-outlet></router-outlet>
   </div>
 </div>
