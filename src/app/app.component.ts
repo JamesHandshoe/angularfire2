@@ -8,15 +8,5 @@ import { AngularFireDatabase } from 'angularfire2/database'
 export class AppComponent {
   title = 'app';
 
-  constructor(private af: AngularFireDatabase) {
-      let observableSub = this.af.object('connected');
-    
-      observableSub.subscribe({
-          next: (data) => { console.log(data)},
-          error: (error) => { console.log(error)},
-          complete: () => { console.log('Complete')}
-      });
-
-     
-  }
+  constructor() {}
 }

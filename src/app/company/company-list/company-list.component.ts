@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Company } from '../../models/company.model';
 
 @Component({
-  selector: 'app-company-list',
+  selector: 'company-list',
   templateUrl: './company-list.component.html',
   styleUrls: ['./company-list.component.scss']
 })
@@ -18,7 +18,7 @@ export class CompanyListComponent implements OnInit {
   }
 
   getCompanies() {
-      this.companies$ = this.companyService.getCompanies();
+     return this.companies$ = this.companyService.getCompanies();
   }
 
 }

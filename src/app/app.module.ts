@@ -5,7 +5,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AppComponent } from './app.component';
 import { AngularFireDatabase, AngularFireDatabaseModule } from 'angularfire2/database';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatMenuModule, MatInputModule, MatToolbarModule, MatCardModule, MatButtonModule } from '@angular/material';
+import { MatMenuModule, MatInputModule, MatToolbarModule, MatCardModule, MatButtonModule, MatTableModule } from '@angular/material';
 
 import 'hammerjs';
 import { CompanyEditComponent } from './company/company-edit/company-edit.component';
@@ -13,6 +13,7 @@ import { CompanyService } from './company/services/company.service';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { CompanyListComponent } from './company/company-list/company-list.component';
+import { CompanyTableComponent } from './company/company-table/company-table.component';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDTKjf_mN1v07gaihx05YTUHfBqK-85ctg',
@@ -29,14 +30,16 @@ const materialModules = [
   MatCardModule,
   MatToolbarModule,
   MatButtonModule,
-  MatCardModule
+  MatCardModule,
+  MatTableModule
 ]
 
 @NgModule({
   declarations: [
     AppComponent,
     CompanyEditComponent,
-    CompanyListComponent
+    CompanyListComponent,
+    CompanyTableComponent
   ],
   imports: [
     BrowserModule,
