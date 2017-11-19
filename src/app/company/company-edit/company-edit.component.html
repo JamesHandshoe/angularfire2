@@ -1,4 +1,4 @@
-<h2>Company Edit</h2>
+<h2>{{ headerMessage }}</h2>
 <mat-card *ngIf="company$ | async as company">  
     <mat-form-field>
         <input placeholder="Company Name" type="text" matInput [(ngModel)]="company.name" />

@@ -12,6 +12,7 @@ import { Observable } from 'rxjs/Observable';
 })
 export class CompanyEditComponent implements OnInit {
 
+    headerMessage: string = "Edit Company";
     isNewCompany: boolean;
     companyKey: string;
     company$: Observable<Company>;
@@ -25,6 +26,9 @@ export class CompanyEditComponent implements OnInit {
         this.companyKey = this.route.snapshot.params['id']
         this.isNewCompany = this.companyKey === 'new';
         !this.isNewCompany ? this.getCompanyById() : this.company$ = Observable.of({}) as FirebaseObjectObservable<Company>; 
+        if (this.isNewCompany) {
+            this.headerMessage = "New Company";
+        }
     }
 
     getCompanyById() {

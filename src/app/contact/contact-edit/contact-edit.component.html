@@ -1,0 +1,20 @@
+<h2>{{ headerMessage }}</h2>
+<mat-card *ngIf="contact$ | async as contact">  
+    <mat-form-field>
+        <input placeholder="Contact Name" type="text" matInput [(ngModel)]="contact.name" />
+    </mat-form-field>
+    <mat-form-field>
+            <input placeholder="Contact Phone" type="text" matInput [(ngModel)]="contact.phone" />
+        </mat-form-field>
+    <mat-card-actions align="right">
+        <button *ngIf="isNewContact" (click)="saveContact(contact)" 
+                mat-button
+                color="primary">Save Contact</button>
+        <button *ngIf="!isNewContact" (click)="updateContact(contact)" 
+                mat-button
+                color="primary">Update Contact</button>
+        <button *ngIf="!isNewContact" (click)="deleteContact(contact)"
+                mat-button
+                color="primary">Delete Contact</button>
+    </mat-card-actions>
+</mat-card>

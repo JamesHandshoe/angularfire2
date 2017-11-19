@@ -14,6 +14,10 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { CompanyListComponent } from './company/company-list/company-list.component';
 import { CompanyTableComponent } from './company/company-table/company-table.component';
+import { ContactService } from './contact/services/contact.service';
+import { ContactEditComponent } from './contact/contact-edit/contact-edit.component';
+import { ContactListComponent } from './contact/contact-list/contact-list.component';
+import { ContactTableComponent } from './contact/contact-table/contact-table.component';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDTKjf_mN1v07gaihx05YTUHfBqK-85ctg',
@@ -39,7 +43,10 @@ const materialModules = [
     AppComponent,
     CompanyEditComponent,
     CompanyListComponent,
-    CompanyTableComponent
+    CompanyTableComponent,
+    ContactEditComponent,
+    ContactListComponent,
+    ContactTableComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +60,8 @@ const materialModules = [
   ],
   providers: [
     AngularFireDatabase,
-    CompanyService
+    CompanyService,
+    ContactService
   ],
   bootstrap: [AppComponent]
 })
