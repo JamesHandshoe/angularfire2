@@ -18,6 +18,7 @@ import { ContactService } from './contact/services/contact.service';
 import { ContactEditComponent } from './contact/contact-edit/contact-edit.component';
 import { ContactListComponent } from './contact/contact-list/contact-list.component';
 import { ContactTableComponent } from './contact/contact-table/contact-table.component';
+import { HeaderComponent } from './components/header/header.component';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDTKjf_mN1v07gaihx05YTUHfBqK-85ctg',
@@ -35,7 +36,8 @@ const materialModules = [
   MatToolbarModule,
   MatButtonModule,
   MatCardModule,
-  MatTableModule
+  MatTableModule,
+  MatMenuModule
 ]
 
 @NgModule({
@@ -46,7 +48,8 @@ const materialModules = [
     CompanyTableComponent,
     ContactEditComponent,
     ContactListComponent,
-    ContactTableComponent
+    ContactTableComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

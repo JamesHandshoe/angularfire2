@@ -1,0 +1,26 @@
+<mat-toolbar color="primary">
+    <div fxLayoutAlign="space-between center" class="nav-buttons">
+      <button mat-button [routerLink]="['']">Angular Fire Course</button>
+      <div>
+        <button mat-button 
+                [matMenuTriggerFor]="companies"
+                yPosition="below"
+                xPosition="before"
+                overlapTrigger="false">Companies</button>
+            <mat-menu class="companies-dropdown" #companies="matMenu">
+                <button mat-menu-item [routerLink]="['company-list']">List Companies</button>                    
+                <button mat-menu-item [routerLink]="['company-edit/new']">New Company</button>                
+            </mat-menu>
+        <button mat-button 
+            [matMenuTriggerFor]="contacts"
+            yPosition="below"
+            xPosition="before"
+            overlapTrigger="false">Contacts</button>
+        <mat-menu class="contacs-dropdown" #contacts="matMenu">
+            <button mat-menu-item [routerLink]="['contact-list']">List Contacts</button>                    
+            <button mat-menu-item [routerLink]="['contact-edit/new']">New Contact</button>                
+        </mat-menu>
+        <button mat-button>Sign Up</button>      
+      </div>
+    </div>
+  </mat-toolbar>
