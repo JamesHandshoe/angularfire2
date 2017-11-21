@@ -39,8 +39,13 @@ export class ContactService {
             .catch(error => console.log(error));
     }
 
-    getContacts(): Observable<Contact[]> {
-        return this.contacts$
+    getContacts(companyKey?: string): Observable<Contact[]> {
+        return this.db.list('contacts', {
+            query: {
+                orderByChild: 'companyKey',
+                equalTo: companyKey
+            }
+        })
             .catch(this.errorHandler);
     }
 

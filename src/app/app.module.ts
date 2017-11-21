@@ -5,7 +5,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AppComponent } from './app.component';
 import { AngularFireDatabase, AngularFireDatabaseModule } from 'angularfire2/database';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatMenuModule, MatInputModule, MatToolbarModule, MatCardModule, MatButtonModule, MatTableModule } from '@angular/material';
+import { MatMenuModule, MatInputModule, MatToolbarModule, MatCardModule, MatButtonModule, MatTableModule, MatSelectModule, MatOptionModule } from '@angular/material';
 
 import 'hammerjs';
 import { CompanyEditComponent } from './company/company-edit/company-edit.component';
@@ -37,7 +37,8 @@ const materialModules = [
   MatButtonModule,
   MatCardModule,
   MatTableModule,
-  MatMenuModule
+  MatMenuModule,
+  MatSelectModule,
 ]
 
 @NgModule({

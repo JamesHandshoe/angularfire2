@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ContactService } from '../services/contact.service';
 import { Observable } from 'rxjs/Observable';
 import { Contact } from '../../models/contact.model';
+import { CompanyService } from '../../company/services/company.service';
+import { Company } from '../../models/company.model';
 
 @Component({
   selector: 'contact-list',
@@ -10,15 +12,21 @@ import { Contact } from '../../models/contact.model';
 })
 export class ContactListComponent implements OnInit {
   
-  contacts$: Observable<Contact[]>;
-  constructor(private contactService: ContactService) { }
+    companies: Company[];
+    contacts$: Observable<Contact[]>;
+    companyPlaceholder: string = "Sort by Company";
+    constructor(private contactService: ContactService,
+                private companyService: CompanyService) { }
 
-  ngOnInit() {
-      this.getContacts();
-  }
+    ngOnInit() {
+        this.getContacts();
+        this.companyService.getCompanies().subscribe(data => {
+            this.companies = data;
+        });
+    }
 
-  getContacts() {
-     return this.contacts$ = this.contactService.getContacts();
-  }
+    getContacts(companyKey?: string) {
+      return this.contacts$ = this.contactService.getContacts(companyKey);
+    }
 
 }

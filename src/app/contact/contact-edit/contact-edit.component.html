@@ -4,8 +4,15 @@
         <input placeholder="Contact Name" type="text" matInput [(ngModel)]="contact.name" />
     </mat-form-field>
     <mat-form-field>
-            <input placeholder="Contact Phone" type="text" matInput [(ngModel)]="contact.phone" />
+        <input placeholder="Contact Phone" type="text" matInput [(ngModel)]="contact.phone" />
+    </mat-form-field>
+    <div>
+        <mat-form-field>
+            <mat-select [placeholder]="companyPlaceholder" [(ngModel)]="contact.companyKey">
+                <mat-option *ngFor="let company of companies" [value]="company.$key">{{company.name}}</mat-option>
+            </mat-select>
         </mat-form-field>
+    </div>
     <mat-card-actions align="right">
         <button *ngIf="isNewContact" (click)="saveContact(contact)" 
                 mat-button
@@ -16,5 +23,6 @@
         <button *ngIf="!isNewContact" (click)="deleteContact(contact)"
                 mat-button
                 color="primary">Delete Contact</button>
+        <button mat-button color="primary" (click)="cancel()">Cancel</button>
     </mat-card-actions>
 </mat-card>

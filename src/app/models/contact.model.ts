@@ -3,4 +3,5 @@ export class Contact {
     $key: string;
     name: string;
     phone: string;
+    companyKey: string;
 }
