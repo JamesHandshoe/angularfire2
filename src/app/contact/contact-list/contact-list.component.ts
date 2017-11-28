@@ -15,6 +15,7 @@ export class ContactListComponent implements OnInit {
     companies: Company[];
     contacts$: Observable<Contact[]>;
     companyPlaceholder: string = "Sort by Company";
+    initialSelectState: string = "All Companies";
     constructor(private contactService: ContactService,
                 private companyService: CompanyService) { }
 
@@ -25,8 +26,12 @@ export class ContactListComponent implements OnInit {
         });
     }
 
-    getContacts(companyKey?: string) {
-      return this.contacts$ = this.contactService.getContacts(companyKey);
+    getContacts() {
+        this.contacts$ = this.contactService.getContacts();
+    }
+
+    sortContacts(companyKey: string) {
+        this.contactService.companySubject$.next(companyKey);
     }
 
 }
