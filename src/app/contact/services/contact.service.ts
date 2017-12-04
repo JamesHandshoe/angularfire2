@@ -28,17 +28,50 @@ export class ContactService {
     }
 
     updateContact(contact: Contact) {
+        // multipath update
+        // in this object the properties should contain all the 
+        // paths needed to be updated.
+        let removeContact = {}; 
+
+        removeContact[`contacts/${contact.$key}`] = contact;
+        Object.keys(contact.contactCompanies).forEach(companyKey => {
+            removeContact[`companyContacts/${companyKey}/${contact.$key}`] = true;
+        });
+
         //update will only update the specific property
         //on the firebase object
-        return this.contacts$.update(contact.$key, contact)
+        // return this.contacts$.update(contact.$key, contact)
+        //     .then(() => console.log('success'))
+        //     .catch(this.errorHandler);
+
+        // multipath update example
+        return this.db.object('/').update(removeContact)
             .then(() => console.log('success'))
             .catch(this.errorHandler);
     }
 
     deleteContact(contact) {
-        return this.contacts$.remove(contact.$key)
+
+        // multipath delete
+        // in this object the properties should contain all the 
+        // paths needed to be deleted.
+        let updateContact = {}; 
+        
+        updateContact[`contacts/${contact.$key}`] = null;
+        Object.keys(contact.contactCompanies).forEach(companyKey => {
+            updateContact[`companyContacts/${companyKey}/${contact.$key}`] = null;
+        });
+
+        // multipath delete example
+        return this.db.object('/').update(updateContact)
             .then(() => console.log('success'))
-            .catch(error => console.log(error));
+            .catch(this.errorHandler);
+
+        // way to remove one contact.  However, doesn't
+        // remove all references and remaining data of the contact.
+        // return this.contacts$.remove(contact.$key)
+        //     .then(() => console.log('success'))
+        //     .catch(error => console.log(error));
     }
 
     getContacts(): Observable<Contact[]> {
