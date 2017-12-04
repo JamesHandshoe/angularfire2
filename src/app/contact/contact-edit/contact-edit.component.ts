@@ -18,8 +18,10 @@ export class ContactEditComponent implements OnInit {
     companyPlaceholder:string = 'Select Company';
     isNewContact: boolean;
     contactKey: string;
-    contact$: Observable<Contact>;
+    contact = { name: ''} as Contact;
     companies: Company[];
+    selectedCompany: Company;
+    contactCompanies = [];
 
     constructor(private contactService: ContactService,
                 private companyService: CompanyService,
@@ -33,14 +35,18 @@ export class ContactEditComponent implements OnInit {
         });
         this.contactKey = this.route.snapshot.params['id']
         this.isNewContact = this.contactKey === 'new';
-        !this.isNewContact ? this.getContactById() : this.contact$ = Observable.of({}) as FirebaseObjectObservable<Contact>; 
+        if (!this.isNewContact) { this.getContactById() }; 
         if (this.isNewContact) {
             this.headerMessage = "New Contact";
         }
     }
 
     getContactById() {
-        this.contact$ = this.contactService.getContactById(this.contactKey);
+        this.contactService.getContactById(this.contactKey)
+            .subscribe(contact => {
+                this.contact = contact;
+                this.setContactCompanies();
+            });
     }
 
     saveContact(contact) {
@@ -68,4 +74,14 @@ export class ContactEditComponent implements OnInit {
             });
     }
 
+    setContactCompanies() {
+        if (this.contact.contactCompanies == null) { this.contact.contactCompanies = {} };
+        this.contactCompanies = Object.keys(this.contact.contactCompanies)
+            .map(key => this.contact.contactCompanies[key]);
+    }
+
+    addCompany() {
+        this.contact.contactCompanies[this.selectedCompany.$key] = { name: this.selectedCompany.name };
+        this.setContactCompanies();
+    }
 }

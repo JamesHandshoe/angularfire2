@@ -4,4 +4,5 @@ export class Contact {
     name: string;
     phone: string;
     companyKey: string;
+    contactCompanies: {[key: string]: {name: string}};
 }
