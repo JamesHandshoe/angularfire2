@@ -3,7 +3,10 @@ import { FirebaseObjectObservable, AngularFireDatabase, FirebaseListObservable }
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/map';
 import { Contact } from '../../models/contact.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
@@ -22,8 +25,19 @@ export class ContactService {
     }
 
     saveContact(contact: Contact) {
-        return this.contacts$.push(contact)
-          .then(_ => console.log('success'))
+        let companyContacts = {}
+        let saveContact = this.contacts$.push(contact);
+        let contactKey = saveContact.key;
+        return saveContact
+          .then((data) => {
+                Object.keys(contact.contactCompanies).forEach(companyKey => {
+                    companyContacts[`companyContacts/${companyKey}/${contactKey}`] = { name: contact.name };
+                    this.db.object('/').update(companyContacts);
+                },
+                console.log(contact));
+                console.log('success');         
+          })
+          
           .catch(error => console.log(error));
     }
 
@@ -31,11 +45,11 @@ export class ContactService {
         // multipath update
         // in this object the properties should contain all the 
         // paths needed to be updated.
-        let removeContact = {}; 
+        let updateContact = {}; 
 
-        removeContact[`contacts/${contact.$key}`] = contact;
+        updateContact[`contacts/${contact.$key}`] = contact;
         Object.keys(contact.contactCompanies).forEach(companyKey => {
-            removeContact[`companyContacts/${companyKey}/${contact.$key}`] = true;
+            updateContact[`companyContacts/${companyKey}/${contact.$key}`] = { name: contact.name };
         });
 
         //update will only update the specific property
@@ -45,7 +59,7 @@ export class ContactService {
         //     .catch(this.errorHandler);
 
         // multipath update example
-        return this.db.object('/').update(removeContact)
+        return this.db.object('/').update(updateContact)
             .then(() => console.log('success'))
             .catch(this.errorHandler);
     }
@@ -55,15 +69,15 @@ export class ContactService {
         // multipath delete
         // in this object the properties should contain all the 
         // paths needed to be deleted.
-        let updateContact = {}; 
+        let removeContact = {}; 
         
-        updateContact[`contacts/${contact.$key}`] = null;
+        removeContact[`contacts/${contact.$key}`] = null;
         Object.keys(contact.contactCompanies).forEach(companyKey => {
-            updateContact[`companyContacts/${companyKey}/${contact.$key}`] = null;
+            removeContact[`companyContacts/${companyKey}/${contact.$key}`] = null;
         });
 
         // multipath delete example
-        return this.db.object('/').update(updateContact)
+        return this.db.object('/').update(removeContact)
             .then(() => console.log('success'))
             .catch(this.errorHandler);
 
@@ -75,12 +89,20 @@ export class ContactService {
     }
 
     getContacts(): Observable<Contact[]> {
-        return this.db.list('contacts', {
-            query: {
-                orderByChild: 'companyKey',
-                equalTo: this.companySubject$
-            }
-        })
+        return this.companySubject$
+            .switchMap(companyKey => companyKey === undefined 
+                ? this.contacts$
+                : this.db.list(`companyContacts/${companyKey}`))
+            .catch(this.errorHandler);
+    }
+
+    companyContactsJoin(companyKey: string) {
+        return this.db.list(`companyContacts/${companyKey}`)
+            .map(contactKeys => contactKeys
+                .map(contact => this.db.object(`contacts/${contact.$key}`)))
+            .switchMap(contactObsArray => contactObsArray.length >= 1
+                ? Observable.combineLatest(contactObsArray)
+                : Observable.of([]))
             .catch(this.errorHandler);
     }
 

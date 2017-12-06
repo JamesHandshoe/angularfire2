@@ -18,7 +18,7 @@ export class ContactEditComponent implements OnInit {
     companyPlaceholder:string = 'Select Company';
     isNewContact: boolean;
     contactKey: string;
-    contact = { name: ''} as Contact;
+    contact = {name: ''} as Contact;
     companies: Company[];
     selectedCompany: Company;
     contactCompanies = [];
@@ -37,6 +37,7 @@ export class ContactEditComponent implements OnInit {
         this.isNewContact = this.contactKey === 'new';
         if (!this.isNewContact) { this.getContactById() }; 
         if (this.isNewContact) {
+            this.setContactCompanies();
             this.headerMessage = "New Contact";
         }
     }
@@ -61,6 +62,7 @@ export class ContactEditComponent implements OnInit {
     }    
 
     updateContact(contact) {
+        console.log(contact);
         this.contactService.updateContact(contact)
             .then(() => {
                 this.router.navigate(['contact-list'])
